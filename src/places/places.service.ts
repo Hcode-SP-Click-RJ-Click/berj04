@@ -9,4 +9,23 @@ export class PlacesService {
   createPlace(dados) {
     return dados;
   }
+
+  showPlace(id) {
+    return {
+      message: 'Retornando o lugar pelo id',
+      id: id,
+    };
+  }
+
+  updatePlace(dados, id) {
+    return {
+      id: id,
+      dados: dados,
+      message: 'Aqui os dados atualizados',
+    };
+  }
+
+  deletePlace(id) {
+    return `Aqui o id do place excluido com o id ${id}`;
+  }
 }

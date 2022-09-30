@@ -23,19 +23,22 @@ export class PlacesController {
   createPlace(@Body() dados) {
     return this.placesService.createPlace(dados);
   }
+
+  @Get(':id')
+  showPlace(@Param() id) {
+    return this.placesService.showPlace(id);
+  }
+
   // localhost:3000/places/id
   // DESAFIO: CONECTAR ESSE PACTH COM O PLACES SERVICE
   @Patch(':id')
   updatePlace(@Body() dados, @Param('id') id) {
-    return {
-      message: `Lugar número ${id} atualizado com sucesso!`,
-      lugar: dados,
-    };
+    return this.placesService.updatePlace(dados, id);
   }
 
   // DESAFIO: CONECTAR ESSE DELETE COM O PLACES SERVICE
   @Delete(':id')
   deletePlace(@Param('id') id) {
-    return `Lugar número ${id} atualizado com sucesso!`;
+    return this.placesService.deletePlace(id);
   }
 }
