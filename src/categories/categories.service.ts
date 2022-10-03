@@ -1,18 +1,20 @@
 import { Injectable } from '@nestjs/common';
+import { PrismaService } from '../prisma.service';
 
 @Injectable()
 export class CategoriesService {
-  createCategories(dados) {
-    return {
-      message: 'Retornando os dados de criação',
-      dados: dados,
-    };
+  constructor(private prismaService: PrismaService) {}
+
+  createCategory(dados) {
+    return this.prismaService.categories.create({
+      data: {
+        name: dados.name,
+      },
+    });
   }
 
   listCategories() {
-    return {
-      message: 'Retornando todas as categorias',
-    };
+    return this.prismaService.categories.findMany();
   }
 
   showCategories(id) {
