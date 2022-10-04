@@ -1,41 +1,65 @@
 import { Injectable } from '@nestjs/common';
+import { Console } from 'console';
 import { PrismaService } from '../prisma.service';
+import { CreateCategoriesDTO } from './dto/create-categories.dto';
+import { CreateManyCategoriesDTO } from './dto/createMany-categories.dto';
 
 @Injectable()
 export class CategoriesService {
   constructor(private prismaService: PrismaService) {}
 
-  createCategory(dados) {
+  createCategories(createManyCategoriesDTO: CreateManyCategoriesDTO) {
+    return this.prismaService.categories.createMany({
+      data: createManyCategoriesDTO.names,
+      skipDuplicates: true,
+    });
+  }
+
+  createCategory(categories: CreateCategoriesDTO) {
     return this.prismaService.categories.create({
       data: {
-        name: dados.name,
+        name: categories.name,
       },
     });
   }
 
   listCategories() {
-    return this.prismaService.categories.findMany();
+    return this.prismaService.categories.findMany({
+      include: {
+        places: true,
+      },
+    });
   }
 
   showCategories(id) {
-    return {
-      message: 'retornando uma única categoria',
-      id: id,
-    };
+    return this.prismaService.categories.findUnique({
+      where: {
+        id: id,
+      },
+
+      include: {
+        places: true,
+      },
+    });
   }
 
-  updateCategories(dados, id) {
-    return {
-      message: 'Retornando a categoria atualizada',
-      id: id,
-      dados: dados,
-    };
+  updateCategories(categories, id) {
+    return this.prismaService.categories.update({
+      where: {
+        id: id,
+      },
+
+      data: {
+        name: categories.name,
+      },
+    });
   }
 
   deleteCategories(id) {
-    return {
-      message: 'Excluindo uma categoria',
-      id: id,
-    };
+    return this.prismaService.categories.delete({
+      where: {
+        id: id,
+      },
+    });
   }
 }

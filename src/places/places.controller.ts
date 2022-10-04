@@ -8,6 +8,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { CreatePlaceDTO } from './dto/create-pleace.dto';
+import { CreateManyPlacesDTO } from './dto/createMany-pleaces.dto';
 import { UpdatePlacesDTO } from './dto/update-pleaces.dto';
 import { PlacesService } from './places.service';
 
@@ -20,10 +21,15 @@ export class PlacesController {
   listPlaces() {
     return this.placesService.listPlaces();
   }
+
+  @Post('/create-places')
+  createPlaces(@Body() placesManyDTO: CreateManyPlacesDTO) {
+    return this.placesService.createPlaces(placesManyDTO);
+  }
   // localhost:3000/places
   @Post()
-  createPlace(@Body() dados: CreatePlaceDTO) {
-    return this.placesService.createPlace(dados);
+  createPlace(@Body() places: CreatePlaceDTO) {
+    return this.placesService.createPlace(places);
   }
 
   @Get(':id')

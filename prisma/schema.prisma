@@ -7,19 +7,19 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model categories {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  places    places[]
+}
 model places {
   id         Int         @id @default(autoincrement())
-  name       String      @unique(map: "Places_name_key")
+  name       String      @unique
   createdAt  DateTime    @default(now())
   updatedAt  DateTime    @default(now())
   categoryId Int?
   category   categories? @relation(fields: [categoryId], references: [id])
 }
 
-model categories {
-  id        Int      @id @default(autoincrement())
-  name      String   @unique(map: "Categories_name_key")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  places    places[]
-}

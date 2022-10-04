@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import { CreateManyPlacesDTO } from './dto/createMany-pleaces.dto';
 
 @Injectable()
 export class PlacesService {
@@ -9,10 +10,18 @@ export class PlacesService {
     return this.prismaService.places.findMany();
   }
 
-  createPlace(dados) {
+  createPlaces(createManyPlacesDTO: CreateManyPlacesDTO) {
+    return this.prismaService.places.createMany({
+      data: createManyPlacesDTO.names,
+      skipDuplicates: true,
+    });
+  }
+
+  createPlace(places) {
     const place = this.prismaService.places.create({
       data: {
-        name: dados.name,
+        name: places.name,
+        categoryId: places.categoryId,
       },
     });
 
